@@ -1,0 +1,2 @@
+# UnitaryEvolution
+These are files concerning the semester project persued with Dr Sreejith GJ at IISER Pune, in the Covid affected semester of Jan2020. The project mainly dealt with tensor networks. We were interested in a particular decomposition of SU(N^2) in particular that of SU(9) which allows us to talk about the unitaries modulo the leg degrees of freedom. This leads us to some special duality conditions (can be realised as submanifolds of the space) which allows us to write analytical correlation function for some special non-integarble systems.    
