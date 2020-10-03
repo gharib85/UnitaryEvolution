@@ -9,7 +9,7 @@ This structre does not generalise for higher N primarily due to two reasons:
 We approach the problem with the following construction. First we look at the subspace of SU(9)/SU(3)XSU(3), where an Cartan Decomposition structure is possible.
   Let, SU(3)XSU(3) be K (a compact subgroup of SU(9)). Lower case alphabets (k, su(9) respectively) deonote the corresponding algebras. We denote the set of generators that generate the normal subspace of K in SU(9) by p. This is essentially the quotient space generators. Now we look at the commuting subspaces of the quotient space (call the corresponding set of generaotors a). The maximal such subalgebra is called the Cartan Subalgebra.
 
-We look at the structres G=K.Exp{a}.K. G is automatically a subgroup of SU(9), that has the desired structres. We try to find all such possible a, upto conjugation. That gives us the knowledge of all the subgroups, where we can go on looking for Duality Conditions. Geometrically speaking, these forms tori in the SU(9) manifold, and the Cartan Subalgebra generates the maximal tori. For SU(9) the maximal tori is 8 dimensional as vector space. At this point we know existence of two disctinct 6 dimensional tori, having 2 dimensional and 1 dimensional dual subspace respectively.
+We look at the structres G=K.Exp{a}.K. G is automatically a subgroup of SU(9), that has the desired structres. We try to find all such possible a, upto conjugation. That gives us the knowledge of all the subgroups, where we can go on looking for Duality Conditions. Geometrically speaking, these forms tori in the SU(9) manifold, and the Cartan Subalgebra generates the maximal tori. For SU(9) the maximal tori is 8 dimensional as vector space. At this point we know existence of two disctinct 6 dimensional tori, having 2 dimensional and 1 dimensional dual subspace respectively. (File 2.1)
 
 There are two directions of possible way ahead.
   a. To look for interesting physical nonintegrable hamiltonians and try to study various phenomena that the analytical correlation functions allows us to look at.
@@ -22,7 +22,9 @@ There are two directions of possible way ahead.
   
   ## Files
   
-  **File 3:** 3 level **Potts Model**.
+  1. **File 2:** Various unorganised raw results regarding the group structre and Cartan-Decomposition of SU(9). Some are important. I will organise these results later.
+  2. **File 2.1: Commuting Subspaces of P.** Contains detailed caculation about duality conditions of the two subspaces. Has the proof of the subgroup structre of KAK.   
+  3. **File 3: 3 level Potts Model**.
       Mathematica file concerning the 3 level Potts model. The basis change from (\sigma,\tau) to Gell-Mann Matrices has been obtained for relevant unitaries. Yet to obtain the swap matrices, that allows us to bring one class of unitaries from the L to R of another class.
 
    
