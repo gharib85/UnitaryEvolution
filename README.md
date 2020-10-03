@@ -18,5 +18,11 @@ There are two directions of possible way ahead.
   In either case (b/c) we would finally like to determine how the structre/conditions generalise for higher N.
   
   Here I would gather the major calculations, and keep updating them as time flows. The plan is to add latex files with sufficient background and mathematical details (proofs, theorems etc.)  
+  
+  
+  ## Files
+  
+  **File 3:** 3 level **Potts Model**.
+      Mathematica file concerning the 3 level Potts model. The basis change from (\sigma,\tau) to Gell-Mann Matrices has been obtained for relevant unitaries. Yet to obtain the swap matrices, that allows us to bring one class of unitaries from the L to R of another class.
 
    
