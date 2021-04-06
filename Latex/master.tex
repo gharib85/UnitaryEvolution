@@ -1,0 +1,364 @@
+\documentclass{amsart}
+
+\usepackage[utf8]{inputenc}
+
+%load any additional packages
+
+% Original Packages:
+
+\usepackage{amssymb}    % AMS Symbols
+\usepackage{graphicx}   % Include figure files
+\usepackage{subcaption}
+\usepackage{dcolumn}    % Align table columns on decimal point
+\usepackage{bm}         % bold math
+%\usepackage{hyperref}  % add hypertext capabilities
+%\usepackage[mathlines]{lineno}     
+                        % Enable numbering of text and display math
+%\linenumbers\relax     % Commence numbering lines
+\usepackage[english]{babel}
+                        % English (Grammar check?)
+%\usepackage[showframe, 
+                        %Uncomment any one of the following lines to test 
+%%scale=0.7, marginratio={1:1, 2:3}, ignoreall,
+                        % default settings
+%%text={7in,10in},centering,
+%%margin=1.5in,
+%%total={6.5in,8.75in}, top=1.2in, left=0.9in, includefoot,
+%%height=10in,a5paper,hmargin={3cm,0.8in},
+%]{geometry}
+%input macros (i.e. write your own macros file called mymacros.tex 
+%and uncomment the next line)
+%\include{mymacros}
+
+
+% Added Later
+
+\usepackage{amsmath,amsthm,amssymb} % AMS for Maths equations
+\usepackage{epigraph}   % For Epigraphs, might be incompatible, with cls
+\usepackage{braket}     % Bra-Ket Notation
+\usepackage{lettrine}   
+\usepackage{type1cm}
+
+
+\usepackage[mathscr]{euscript}  %Euler Script for math mode
+%\usepackage{mathrsfs}       %Ralph Smith’s Formal Script Font: \mathscr{}
+
+
+\usepackage[style=nature]{biblatex}     % Natbib/Biblatex?
+\addbibresource{dual.bib}                % Not all compiler can handle -
+
+
+\usepackage[a4paper,margin=27mm]{geometry}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\title{Unitary Evolutions}
+\author{Sagnik Ghosh}
+\date{May 2020}
+
+
+\newtheorem{defn}[]{Definition}
+\newtheorem{obs}[]{Observation}
+\newtheorem{lem}[]{Lemma}
+\newtheorem{thm}[]{Theorem}
+\newtheorem{prop}[]{Proposition}
+\newtheorem{appr}[]{Approximation}
+
+
+\begin{document}
+
+
+\includegraphics[scale=0.95]{internal-lhead.png}
+\vspace{20mm}
+
+\maketitle
+
+
+\section{Introduction}
+
+Correlation functions plays an important role in the study of many-body physics as they quantify the Quantum Information possessed by a system (or subsystem) at a given time. Growth (or decay) of correlation functions between two spatially separated lattice points, or operators injected at those sites embodies decoherence and helps characterizing long time dynamical behaviour of isolated quantum many-body systems, viz. scrambling, thermalisation, localisation etc.
+
+If the model under question is integrable, then its partition function can be solved exactly and the correlation functions can be obtained from it as suitable derivatives. However that forms only a subclass of models of physical interest. The partition functions corresponding to Hamilotians, usually interacting and subjected to external forcing terms, that are usual candidates to exhibit thermalisation, scrambling etc, cannot be solved for exactly.
+
+However, even though the partition functions in general cases can not be solved in closed form for these models, it has been shown that for a special class of systems (Time-periodic or Floquet Systems), which can be essentially thought of as unitary circuits, at special \textit{dual} points it is possible to construct analytical expressions for two-point correlators \cite{chan2018solution,Bertini1}.  For one dimensional spin chains it is essentially achieved by thinking the dynamics as a (1+1) dimensional lattice in space time. The lattice considered is periodic both in space and time. Then we can construct the Transfer Matrices by summing over either the space coordinates at a given time or by summing the time coordinates at a given spatial position (we call this the dual transfer matrix of the previous one). For a class of Unitaries it has then be shown for two level systems\cite{Bertini1} that both the Transfer Matrices derive the same structures but usually with different parameters for the basis elements. At some particular dual points, where the parameters obtains suitable value, the transfer matrix and its dual becomes exactly identical. Using this property and applying Tensor Network Arguments\cite{orus2019tensor}, one can construct analytical two point correlation functions connecting any two space-time points in this lattice. 
+
+In this project we were primarily interested in generalising the two level systems results by Bertini et. al. for a general N-level system.
+
+\section{Problem Statement}
+
+In the Appendix III. of \cite{Bertini1}, Bertini \textit{et. al.} used a group decomposition of $SU(4)$, that in effect separates out the degrees of freedom associated with unitary rotations of the individual input and output legs. This decomposition is particularly useful, while treating the general Unitary operators acting on the product states as 2-legged gates, as the gates, by definition, are unique upto individual $SU(2)$ rotations of the input and output legs.
+
+\par This particular $KAK$ type decomposition of $SU(4)$ was introduced by Khanjea \& Glasser \cite{KhanejaGlasser} and is related to Cartan Decomposition \cite{Cartan} of $SU(4)$ over $SO(4)$.
+
+\par The independent but simultaneous unitary rotations of the qubits in both the input (output) legs live in $SU(2)\otimes SU(2)$,which forms a compact subgroup of $SU(4)$. Let $\mathbf{k},\mathbf{g}$ denotes the generators of $\mathbf{su}(2)\otimes \mathbf{su}(2)$ and $\mathbf{su}(4)$ respectively. Let $\mathbf{p}$ denote the set of generators that generate the orthogonal subspace of $\mathbf{su}(2) \otimes \mathbf{su}(2)$ in $\mathbf{su}(4)$. $\mathbf{p}$ is defined by a direct sum decomposition of generators as,
+
+\begin{align}\label{CartanAl}
+    \mathbf{g}=\mathbf{k}\oplus \mathbf{p} 
+\end{align}
+
+Explicitly, in terms of the Pauli Matrices $\mathbf{k}$ and $\mathbf{p}$ are respectively given by,
+
+\begin{align*}
+    \mathbf{k}&=\{i \sigma_i \otimes \mathbf{I}, i \mathbf{I} \otimes\sigma_i \}\\
+    \mathbf{p}&=\{i \sigma_i \otimes \sigma_j \}
+\end{align*}
+
+where $i,j \in (x,y,z)$ and $\mathbf{I}$ denotes the identity matrix of dimension $2\times2$. 
+\par $\mathbf{p},\mathbf{k}$, satisfies the following commutation relations.
+
+\begin{align*}
+    [\mathbf{k},\mathbf{k}] \subset \mathbf{k}\\
+    [\mathbf{p},\mathbf{p}] \subset \mathbf{k}\\
+    [\mathbf{p},\mathbf{k}] \subset \mathbf{p}
+\end{align*}
+
+When the lie algebra of a group can be sum decomposed into lie algebra of a subgroup and it's orthogonal vector space, such that the above commutation relation holds, then the Cartan Decomposition Theorems allows for a  decomposition of the group $G$ given by,
+
+\begin{align*}
+    G=K e^{\mathbf{A}}K
+\end{align*}
+
+where $\mathbf{A}$ is the maximal abbelian subaelgebra of $\mathbf{g}$ contained in $\mathbf{p}$. In this case $\mathbf{A}$ is given by,
+\begin{align}
+    \mathbf{A}=\{i \sigma_x \otimes \sigma_x, i \sigma_y \otimes \sigma_y, i \sigma_z \otimes \sigma_z\}
+\end{align}
+
+so any element $g \in G$ can be written as,
+\begin{align}
+    g= (u_1 \otimes u_2) \exp \{ i (a_1\sigma_x \otimes \sigma_x +a_2 \sigma_y \otimes \sigma_y + a_3 \sigma_z \otimes \sigma_z)\}(v_1 \otimes v_2) 
+\end{align}
+
+where $a_1,a_2,a_3,\in \mathbb{R}$ and $u_1,u_2,v_1,v_2 \in SU(2)$. This is the desired decomposition.
+\par Upto conjugacy, all the Cartan Decompositions of Lie Algebras (and Groups) can be classified into seven classes. This particular decomposition belongs to $\mathbf{A I }$, and the formal proof is done by decomposing $SU(4)$ over $SO(4)$ and using the conjugacy of the algebras $\mathbf{so(4)}$ and $\mathbf{su(2)} \otimes \mathbf{su(2)}$, (note the groups are not conjugate, in particluar $SU(2) \otimes SU(2)$ forms a double cover of $SO(4)$.)
+
+We were looking for a similar decomposition of $SU(9)$ over $SU(3) \otimes SU(3).$ But turns out an algebra decomposition similar to Eqn (\ref{CartanAl}), where $\mathbf{g}=\mathbf{su(9)}$ and $\mathbf{k}=\mathbf{su(3) \otimes su(3)}$, do not satisfy the commutation relations, required for Cartan Decomposition. $SU(9)$ can not be written as $ (SU(3) \otimes SU(3)) e^{\mathbf{A}}(SU(3) \otimes SU(3)) $, where $\mathbf{A}$ is the maximal abbelian subaelgebra of $\mathbf{g}$ contained in $\mathbf{p}$.
+\par This can seen from the fact that rank of $\mathbf{su(9)}$ is 8, so is the (maximum possible) dimension of $\mathbf{A}$. $\mathbf{su(3) \otimes su(3)}$ has dimensions 16, so the dimension of the $KAK$ structure would be 40, much less than 80, the dimension of $\mathbf{su(9)}$. Instead, we look at the subspace of $\mathbf{su(9)}$, which generates elements which are decomposable in $KAK$ form. 
+
+
+
+\section{Theory}
+
+\begin{defn}[Group Decomposition]
+
+ A decomposition of a group $G$, is defined as $G=X_1X_2X_3\cdots X_n$, if for all $g\in G$, $g$ can be written as,
+
+\begin{align*}
+    g=x_1x_2x_3\cdots x_n
+\end{align*}
+where $x_i\in X_i$ for all $i\in (1,n)$, and $X_i$ are smaller subgroups of $G$.
+
+
+\end{defn}
+
+\subsection*{Cartan Decomposition Theorems}\cite{divakaran1980decomposition}
+
+
+\begin{thm}
+If a semisimple Lie Algebra $\mathbf{g}$ has has a direct sum decomposition into subalgebra $\mathbf{k}$ and a vector space $\mathbf{p}$ satisfying,
+
+\begin{align*}
+    [\mathbf{k},\mathbf{k}] \subset \mathbf{k}\\
+    [\mathbf{p},\mathbf{p}] \subset \mathbf{k}\\
+    [\mathbf{p},\mathbf{k}] \subset \mathbf{p}
+\end{align*}
+
+then $\mathbf{k}$ is a symmetric subalegbra. The corresponding subgroup $K$ is called a symmetric subgroup of $G$ and the coset space $G/K$ is called the symmetric subspace.
+\end{thm}
+
+
+
+\begin{defn}[Cartan Subalgebra]
+ A maximal abelian subalegbra contained in $P$ is called a Cartan Subalegbra of $\mathbf{g}$ and is denoted by $\mathbf{a}$. The abelian subgroup generated by $\mathbf{a}$ is denoted by $A$
+\end{defn}
+
+Analogous theorem for groups,
+
+\begin{thm}
+    Let $G$ be a connected Lie group with finite centre, generated by the Lie-algebra $\mathbf{g}$. Let $K$ be the subgroup generated by $\mathbf{k}$ and $P$ denote exponentiation of $\mathbf{p}$. Then $G$ has the following decomposition,
+    \begin{align*}
+        G=KP
+    \end{align*}
+\end{thm}
+
+$\mathbf{k},\mathbf{p}$ and correspondingly $K,P$ of a particular group $G$ given by the above theorems can be constructed in terms of an automorphism on the alegbra $\mathbf{g}$. Let $\phi$ be a linear automorphism on $\mathbf{g}$ s.t.
+
+\begin{align*}
+    &\phi(\mathbf{k})=\mathbf{k}
+    \\ &\phi(\mathbf{p})= -\mathbf{p}
+\end{align*}
+
+By definition $\phi^2$ is identity. The corresponding automorphism of the groups is obtained by exponentiation.
+
+Let $\Phi: G \rightarrow G$. Then,  
+
+\begin{align*}
+    \Phi(k) & = k \;\;\;\forall \;\;k \in K\\
+    \Phi(p) & = \Phi(exp(\mathbf{p}))=exp(\phi(\mathbf{p}))=exp(-\mathbf{p}) \\
+    & = p^{-1} \;\;\;\forall \;\;p \in P\\
+\end{align*}
+
+A $\phi, \Phi$ satisfying the operations are called symmetric automorphism and always exists under the conditions of Theorem 1.
+
+\begin{thm}
+If $\mathbf{a}$ is a Cartan subalgebra and $\mathbf{a'}$ is any abelian subalgebra contained in $\mathbf{p}$ then $\exists$ $k$ $\in K$, s.t, $Ad_k(A')\subset A$.
+\end{thm}
+
+Using this and given the decomposition $G=KP$ we can decompose the group even further. From Theorem 3 it follows that every element of $P$, considered as a 1-d subalgebra contained in $\mathbf{p}$ can be written as $Ad_k(\mathbf{a})$ for a fixed Cartan Subalgebra $\mathbf{a}$ and some fixed $k$ $\in K$. Applying the exponentiation map, then we have,
+
+\begin{align*}
+    P= Ad_k(A) = KAK
+\end{align*}
+
+i.e, $p=k'^{-1}ak'$ $\forall$ $p$ $\in P$, and some $k'\in K$ and $a \in A$. This then implies,
+
+\begin{align*}
+    G= KP = KAK
+\end{align*}
+
+i.e, $g=kak'$ $\forall$ $g$ $\in G$, and some $k,k'\in K$ and $a \in A$. This is our desired Cartan Decomposition in case of groups.
+
+
+
+\subsection*{Classification of Cartan Decomposition}
+
+This exhaustive classification scheme of group decomposition (of the kind described above) is due to Elie Cartan, \cite{Cartan}.
+
+Up to a conjugation the algebra $\mathbf{su}$(N) has three kinds of Cartan Decomposition namely $\mathbf{AI},\mathbf{AII},\mathbf{AIII}$. The algebra $\mathbf{so}$(N) has 2,  $\mathbf{BI},\mathbf{BDI}$ and the algebra $\mathbf{sp}$(N) has 2, namely  $\mathbf{CI},\mathbf{CII}$, where $\mathbf{su}$(N), $\mathbf{so}$(N), $\mathbf{sp}$(N) denotes algebras that generates special unitary, special orthogonal and symplectic groups respectively. We are in particular interested in Lie-algebra decomposition of $\mathbf{su}$(N).\\*
+
+
+\textbf{Type AI}: Cartan Decomposition of $\mathbf{su}$(N) into purely real and purely imaginary subspaces,
+\begin{align}
+    \mathbf{su}(N) =\mathbf{so}(N) \oplus \mathbf{so}(N)^{\perp}
+\end{align}
+
+A maximal subalgebra contained in $\mathbf{so}(N)$ is spanned by the diagonal matrices, so the rank of the decomposition is $N-1$.
+
+\textbf{Type AII}: 
+\begin{align}
+    \mathbf{su}(N) =\mathbf{sp}(N/2) \oplus \mathbf{sp}(N/2)^{\perp}
+\end{align}
+
+again the diagonal matrices forms the maximal abelian subalgebra of $\mathbf{sp}(N/2)^{\perp}$, so the rank of the decomposition is $N/2-1$
+
+\textbf{Type AIII}: it is defined by two integers $p,q$ s.t $p+q=N$,
+\begin{align}
+    \mathbf{su}(N) = r \oplus t 
+\end{align}
+
+where $r$, $t$ are spanned respectively by, 
+$\sigma:=\begin{pmatrix}
+ A & 0  \\
+ 0 & B  \\
+\end{pmatrix}$, 
+$s:=\begin{pmatrix}
+ 0 & C  \\
+ -C^{\dagger} & 0  \\
+\end{pmatrix}$, with $A \in u(p)$, $B \in u(q)$  and $C$ are arbitray $p\times q$ complex matrices. The rank of this decomposition is min\{p,q\}.\\*
+
+
+
+The general Khaneja-Glasser \cite{KhanejaGlasser, divakaran1980decomposition} decomposition is a special case of the \textbf{Type AIII}, and using it recursively to decompose $\mathbf{su}(2^N)$ into products of $2\times2$, $4\times4$ blocks.
+
+The $\mathbf{su}(4) = k \oplus p$ with $k=\mathbf{su}(2) \otimes \mathbf{su}(2)$ is actually a decomposition of \textbf{Type AI} and follows from the fact that, $\mathbf{so}(4)$ and $\mathbf{su}(2) \otimes \mathbf{su}(2)$ are isomorphic as algebras. (In terms of group $SU(4)$ is a double cover of $SU(2) \otimes SU(2)$.)
+
+This fact cannot be exploited for any higher dimension, as in general $\mathbf{so}(N^2)$ and $\mathbf{su}(N) \otimes \mathbf{su}(N)$ are not isomorphic as algebras. The other types for $\mathbf{su}$(N) does not contribute to our construction either as a simple rank calculation shows. In the rest of the document we motivate a generalisation of the construction which may be insightful to achieve the same properties required for the theorems of Bertini et. al \cite{Bertini1} to work for higher level systems.
+
+\section{Results}
+
+In specific we have proved that a KAK type group decomposition can not be achieved for $SU(9)$ into  $SU(3)\otimes SU(3)$ and exponentiation of a subspace.
+
+
+\par $\mathbf{su(3)}$ is generated by the Gell-mann Matrices,
+
+$$ \lambda_1=
+\begin{pmatrix}
+ 0 & 1 & 0 \\
+ 1 & 0 & 0 \\
+ 0 & 0 & 0 \\
+\end{pmatrix}
+,\lambda_2=
+\begin{pmatrix}
+ 0 & -i & 0 \\
+ i & 0 & 0 \\
+ 0 & 0 & 0 \\
+\end{pmatrix}
+,\lambda_3=
+\begin{pmatrix}
+ 1 & 0 & 0 \\
+ 0 & -1 & 0 \\
+ 0 & 0 & 0 \\
+\end{pmatrix}
+,\lambda_4=
+\begin{pmatrix}
+ 0 & 0 & 1 \\
+ 0 & 0 & 0 \\
+ 1 & 0 & 0 \\
+\end{pmatrix}
+$$
+$$\lambda_5=\begin{pmatrix}
+ 0 & 0 & -i \\
+ 0 & 0 & 0 \\
+ i & 0 & 0 \\
+\end{pmatrix}
+,\lambda_6=
+\begin{pmatrix}
+ 0 & 0 & 0 \\
+ 0 & 0 & 1 \\
+ 0 & 1 & 0 \\
+\end{pmatrix}
+,\lambda_7=
+\begin{pmatrix}
+ 0 & 0 & 0 \\
+ 0 & 0 & -i \\
+ 0 & i & 0 \\
+\end{pmatrix}
+,\lambda_8= \frac{1}{\sqrt{3}}
+\begin{pmatrix}
+ 0 & -i & 0 \\
+ i & 0 & 0 \\
+ 0 & 0 & 0 \\
+\end{pmatrix}
+$$
+
+We are interested in constructing a representation of the vector space $SU(9)/SU(3)\otimes SU(3)$, in terms of maximal tori following Khaneja \& Glasser. \cite{KhanejaGlasser}. Similar to the two level case we can construct the following sum decomposition of $SU(9)$,
+
+
+\begin{align*}
+    \mathbf{k}&=\{i \lambda_i \otimes \mathbf{I}, i \mathbf{I} \otimes\lambda_i \}\\
+    \mathbf{p}&=\{i \lambda_i \otimes \lambda_j \}
+\end{align*}
+
+$SU(9)$ has rank 8, so its maximal tori forms an 8 dimensional subspace. By property of Cartan Decomposition, we have established that no such tori recides completely within $\mathbf{p}$, However, we spotted two different (not-conjugate to each either) 6 dimensional abbelian subspaces, spanned by the basis sets,
+
+\begin{align*}
+    \mathbf{a_1}=&\{i \lambda_1 \otimes \lambda_1 ,i \lambda_2 \otimes \lambda_2 ,i \lambda_3 \otimes \lambda_3 , i \lambda_3 \otimes \lambda_8, i \lambda_8 \otimes \lambda_3 , i \lambda_8 \otimes \lambda_8 ,
+    \\&i \lambda_4 \otimes \lambda_4 +i \lambda_5 \otimes \lambda_5 ,i \lambda_6 \otimes \lambda_6 +i \lambda_7 \otimes \lambda7  \} \\
+    \mathbf{a_2}=&\{i \lambda_1 \otimes \lambda_2+i \lambda_2 \otimes \lambda_1 , i \lambda_1 \otimes \lambda_2 -i \lambda_2 \otimes \lambda_1,i \lambda_3 \otimes \lambda_3 , i \lambda_8 \otimes \lambda_8 ,\\&
+    i \lambda_4 \otimes \lambda_5 -i \lambda_5 \otimes \lambda_4 ,i \lambda_6 \otimes \lambda_6 -i \lambda_7 \otimes \lambda6  \} 
+\end{align*}
+
+such that,
+
+\begin{align*}
+    G_1=K e^{\mathbf{a_1}}K \\ G_2=K e^{\mathbf{a_2}}K
+\end{align*}
+
+are subgroups of $SU(9)$ with the desired structure, with $K=SU(3)\otimes SU(3)$.
+
+Withing the subgroup the Tensor Network argument works and we can construct dual solutions for three level systems that lives in this special manifolds. 
+
+\section{Further Works}
+Work is currently being done to excavate all such toris for $SU(9)$, since the subspace generated by $p$ is not a group in this case, it is not possible to span the subspace with just sub-maximal tori with the above property. However, following \cite{KhanejaGlasser} we suspect that the tori along with some non-abelian transition unitary maybe able span the whole space. After the construction is complete we wish to generalise the conditions for $SU(N^2)$ and thus settle the necessary and sufficient conditions for having analytical solutions at dual points for the most general case. 
+
+%\include{theory}
+%\include{duality}
+
+
+\printbibliography
+
+\end{document}
+
+
+
+
+
